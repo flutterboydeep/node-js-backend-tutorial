@@ -1,0 +1,14 @@
+{
+  "name": "learn_nodejs",
+  "version": "1.0.0",
+  "description": "i want to learn backend using node js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "panwar ji",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
