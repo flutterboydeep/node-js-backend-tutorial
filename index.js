@@ -1,42 +1,44 @@
+
+
 const express = require("express");
+const path = require('path');
 const app = express();
-// console.dir(app);
 let port = 8080;
 app.listen(port, () => {
-    console.log("App starting at port", port);
+    console.log("the app is running at port ", port);
+
 });
 
+app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
 
-//<---------------ye function hamesa call hota hai jub bhi server ko call kiya jata hai---->
-// app.use((req, res) => {
-//     res.send("app Use function is running when any action perform on  server");
-// });
 
-app.use(express.urlencoded({ extended: true })); // ab express samaj  jaye ga ki data url encode hai
-app.use(express.urlencoded(express.json())); // ab express samaj  jaye ga ki row data hai
+
+
+let arr = [
+    {
+        'id': 'jkjkjg',
+        'name': 'Deep',
+        'comment': 'how are you everyone',
+
+    },
+    {
+        'id': 'jkjkjg',
+        'name': 'Deep',
+        'comment': 'how are you everyone',
+
+    }
+];
 
 app.get("/", (req, res) => {
-    // let { user } = req.query;
-    res.send(`this is root path`);
+    res.render("index.ejs", { arr }
+
+    );
+
 });
 
-
-
-app.get("/new", (req, res) => {           //    http://localhost:8080/new?user="hello"
-    let { user } = req.query;
-    if (!user) {
-        console.log("not found");
-    }
-    console.log("this is user ", user);
-    res.send(`this is user ${user}`);
-});
-
-
-
-app.post("/userdata", (req, res) => {
-    console.log(req.body);
-    res.send(req.body);
-});
 
 
 app.get(/.*/, (req, res) => {
