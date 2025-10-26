@@ -13,17 +13,25 @@
     <% for(let post of arr){ %>
         <div class="post">
             <h3>
-                @<%=post.name %>
+                @<%=post.username %>
             </h3>
             <h4>
-                hai <%=post.comment %>
+                <%=post.comment %>
             </h4>
+            <br>
 
+            <a href="/posts/<%=post.id%>/edit">edit</a>
+            <a href="/posts/<%=post.id%>/details">detais</a>
+            <br>
 
+            /posts/:id/delete
+            <form method="POST" action="/posts/<%=post.id%>/delete?_method=DELETE"><button>delete</button></form>
         </div>
 
-        <% } %>
 
+
+        <% } %>
+            <a href="/new">Add new post</a>
 
 </body>
 
