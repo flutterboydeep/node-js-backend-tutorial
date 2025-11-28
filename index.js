@@ -1,30 +1,42 @@
+const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
-main().then(() => console.log("mongo db connection successfull")).catch((err) => console.log("mongoes error", err));
+const path = require("path");
+const blog = require("./models/posts_schema.js");
+const getBlogs = require("./routes/get_routes.js");
+const postBlogs = require("./routes/post_routes.js");
+const editBlogs = require("./routes/update_routes.js");
+const deleteBlog = require("./routes/delete_routes.js");
 
-const userschema = new mongoose.Schema({
-    name: String,
-    age: Number,
-    discription: String,
 
+
+
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); //
+main().then((res) => { console.log("Mongodb connection successfully") }).catch((err) => console.log("mongo db conncetion error: ", err));
+
+app.get("/", (req, res) => {
+    res.send("Api working perfectly");
 });
 
-const User = mongoose.model("User", userschema);
-// getAllUsers();
+app.use("/blogs", getBlogs);
+app.use("/blogs", postBlogs);
+app.use("/blogs", editBlogs);
+app.use("/blogs", deleteBlog);
+app.use("/blogs", deleteBlog);
 
-// User.findById("69281c4bda84f01373bc577a").then((res) => { console.log("find 69281c4bda84f01373bc577a=  is =", res) }).catch((err) => { console.log("error filtering the data is ", err) });
-// User.findByIdAndUpdate("69281c4bda84f01373bc577a", { name: 'deep dj' }).then((res) => { console.log("find and update 69281c4bda84f01373bc577a=  is =", res) }).catch((err) => { console.log("error filtering the data is ", err) }); // give old data when data has been updated
-User.findByIdAndUpdate("69281c4bda84f01373bc577a", { name: 'deep panwar dj' }, { new: true }).then((res) => { console.log("find and update 69281c4bda84f01373bc577a=  is =", res) }).catch((err) => { console.log("error filtering the data is ", err) }); // give updated data  updated latest data who is after updated
+// app.get("/blogs", async (req, res) => {
+//     const data = await blog.find();
+//     res.send(data);
+// });
 
 
-console.log("user fetch successfully");
-
-
+app.listen(8080, () => {
+    console.log("App is running port 8080");
+});
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/userDB");
-}
-
-async function getAllUsers() {
-    const data = await User.find();
-    console.log("this is all users colllection data ", data);
-
+    await mongoose.connect("mongodb://127.0.0.1:27017/blogDb");
 }
