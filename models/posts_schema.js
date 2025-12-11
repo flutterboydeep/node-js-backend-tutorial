@@ -1,4 +1,4 @@
-const { date } = require("faker/lib/locales/az");
+
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
@@ -12,15 +12,12 @@ const postSchema = new mongoose.Schema({
         default: "N/A",
         maxLength: 100,
     },
-
-
-
-
     age: {
         type: Number,
         required: true,
         max: 200,
         min: 13,
+
 
     },
 

@@ -11,7 +11,6 @@ router.patch("/edit/:id", async (req, res) => {
     if (id != null) {
         try {
             const { title, body, age } = req.body;
-
             const updationData = {
                 title: title,
                 body: body,
