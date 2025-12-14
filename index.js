@@ -8,6 +8,7 @@ const postBlogs = require("./routes/post_routes.js");
 const editBlogs = require("./routes/update_routes.js");
 const deleteBlog = require("./routes/delete_routes.js");
 const tokenValidation = require("./routes/token_example.js");
+const CustomError = require('./errors/custom_error.js');
 
 
 
@@ -28,29 +29,49 @@ app.get("/", (req, res) => {
 });
 
 
-// middlewhare token validation ------------>
-// const checkToken= app.use("/validation", (req, res, next) => {
-//     let { token } = req.query;
-//     console.log("this is your token value ", token);
-//     if (token === "give_access") {
-//         next();
+//error handling ------->
 
-//     } else {
-//         res.send("you are not authentication persion access denied for you");
-//     }
+app.get("/errors", (req, res, next) => {
 
-// });
-
-app.use("/", tokenValidation);
-// middleware token validation end -------------->
-
-
-// another way to set middle ware 
-
-
-app.use((req, res, next) => {
-    res.send("page not found");
+    try {
+        abcd = abcd;
+    } catch (e) {
+        next(e);
+        // console.log("the main error in your code is ", e);
+        // throw new CustomError(401, e.toString());
+    }
 });
+
+
+// we can us asyncWrap replace to try_catch using async wrap
+function aysncWrap(fn) {
+    return function (req, res, next) {
+        fn(req, res, next).catch((err) => next(err));
+    }
+}
+
+app.get("/error",
+    aysncWrap(async (req, res, next) => {
+        abcd = abcd;
+    }),
+);
+
+
+
+app.use((err, req, res, next) => {
+    let { message = "some error ocuured" } = err;
+    // let { status = 500, message = "some error occured" } = err;
+    // console.log("error in your code", err, err['message']);
+    res.send(message);
+    // res.status(status).send(message);
+
+});
+
+
+
+// app.use((req, res, next) => {
+//     res.send("page not found");
+// });
 
 
 //  for add token validation 
