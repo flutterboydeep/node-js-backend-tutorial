@@ -15,29 +15,66 @@ main().then((res) => { console.log("Mongodb connection successfully") }).catch((
 // });
 
 
-// Schmea-------------------->
+// Schmea--------------------> one to very few here like use may 3,4 address only
 const userSchema = new mongoose.Schema({
     username: String,
     address: [
         {
+            _id: false,
             location: String,
             city: String,
         },
+
     ],
+    orders:
+        [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "order",
+            }
+        ]
+});
+
+const orderSchema = new mongoose.Schema({
+    "order_name": String,
+    "price": Number,
+
 });
 
 // model------------------->
 const User = mongoose.model("User", userSchema);
+const order = mongoose.model("Order", orderSchema);
+
+
+
+const addOrder = async () => {
+    const order1 = new order({
+        "order_name": "Laptop",
+        "price": 50000,
+
+    });
+    await order1.save();
+
+}
+addOrder();
+
+
+
 const addUser = async () => {
     const user1 = new User({
         username: "deep",
         address: [
             {
+
                 location: "Raniyala Dayalpur",
                 city: "Saharanpur",
             },
         ],
+        orders: [],
+
     });
+    const myOrder = await order.findOne({ "price": 50000 });
+    user1.orders.push(myOrder);
     await user1.save();
 
 }
