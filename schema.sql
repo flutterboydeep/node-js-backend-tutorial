@@ -1,6 +1,0 @@
-CREEAT TABLE user(
-    id varchar(50) Primary key,
-    username varchar(50) unique,
-    email varchar(50) unique Not null,
-    password varchar(50) not null
-)
